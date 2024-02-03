@@ -1,0 +1,101 @@
+version: '3'
+
+silent: false
+dotenv: ['.env']
+
+vars:
+    AUTH: aws-vault exec $AWS_VAULT_PROFILE --no-session --
+
+tasks:
+    init:
+        cmds:
+            - 'if [ "$WINDOWS_PROFILE" != "true" ]; then tfenv install; fi'
+            - "{{.AUTH}} terraform -chdir=terraform init"
+            - "tflint --init"
+
+    init-ci:
+        cmds:
+            - tfenv install
+            - "terraform -chdir=terraform init"
+
+    format:
+        cmds:
+            - task: init
+            - "{{.AUTH}} terraform -chdir=terraform fmt -recursive"
+
+    format-ci:
+        cmds:
+            - "terraform -chdir=terraform fmt -recursive -list=true -diff -check"
+
+    validate:
+        cmds:
+            - task: format
+            - "{{.AUTH}} terraform -chdir=terraform validate"
+
+    validate-ci:
+        cmds:
+            - "terraform -chdir=terraform validate"
+
+    lint:
+        cmds:
+            - task: validate
+            - "tflint --recursive"
+
+    lint-ci:
+        cmds:
+            - "tflint --recursive --no-color"
+
+    trivy-fs:
+        cmds:
+            - "trivy fs --scanners secret,misconfig ."
+
+    plan:
+        cmds:
+            - task: lint
+            - task: clean
+            - "{{.AUTH}} terraform -chdir=terraform plan -out=tf_plan.file"
+            - "terraform -chdir=terraform show -json tf_plan.file | jq > terraform/tf_plan.json"
+            - task: trivy-scan-plan
+            - task: checkov
+
+    plan-ci:
+        cmds:
+            - "terraform -chdir=terraform plan -out=tf_plan.file"
+            - "terraform -chdir=terraform show -json tf_plan.file | jq > terraform/tf_plan.json"
+
+    plan-destroy:
+        cmds:
+            - task: lint
+            - task: clean
+            - "{{.AUTH}} terraform -chdir=terraform plan -destroy -out=tf_plan.file"
+            - "terraform -chdir=terraform show -json tf_plan.file | jq > terraform/tf_plan.json"
+            - task: trivy-scan-plan
+            - task: checkov
+
+    trivy-scan-plan:
+        cmds:
+            - "trivy config ./terraform/tf_plan.json"
+
+    checkov:
+        cmds:
+            - "checkov -d ./ --skip-framework terraform terraform_plan"
+            - "checkov -f ./terraform/tf_plan.json --repo-root-for-plan-enrichment ./terraform --deep-analysis --download-external-modules true --skip-check CKV_AWS_274"
+
+    apply:
+        cmds:
+            - task: plan
+            - "{{.AUTH}} terraform -chdir=terraform apply tf_plan.file"
+
+    apply-ci:
+        cmds:
+            - "terraform -chdir=terraform apply -auto-approve tf_plan.file"
+
+    destroy:
+        cmds:
+            - task: plan-destroy
+            - "{{.AUTH}} terraform -chdir=terraform apply tf_plan.file"
+
+    clean:
+        cmds:
+            - rm -f terraform/tf_plan.file
+            - rm -f terraform/tf_plan.json
