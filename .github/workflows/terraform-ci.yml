@@ -1,0 +1,74 @@
+name: Terraform CI
+on: [push]
+env:
+  AWS_REGION: "eu-west-2"
+permissions:
+  id-token: write
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version-file: '.python-version'
+
+      - name: Check CI configuration
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: ./.github
+
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: "arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/GithubActionsTerraformDeployRole"
+
+      - name: Install tfenv
+        uses: rhythmictech/actions-setup-tfenv@v0.1.2
+
+      - uses: terraform-linters/setup-tflint@v4
+        name: Setup TFLint
+        with:
+          tflint_version: v0.50.2
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Task
+        uses: arduino/setup-task@v1
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Terraform init
+        run : task init-ci
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      
+      - name: Terraform format
+        run: task format-ci
+
+      - name: Terraform validate
+        run: task validate-ci
+
+      - name: Terraform lint
+        run: task lint-ci
+
+      - name: Terraform Plan
+        run: task plan-ci
+
+      - name: Check Terraform policies
+        id: checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: .
+          file: ./terraform/tf_plan.json
+          repo_root_for_plan_enrichment: ./terraform
+          skip_check: CKV_AWS_274
+          quiet: true
+
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main'
+        run: task apply-ci
