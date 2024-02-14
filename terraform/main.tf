@@ -20,3 +20,7 @@ terraform {
 provider "aws" {
   region = "eu-west-2"
 }
+
+locals {
+  account_id = data.aws_caller_identity.current.account_id
+}
