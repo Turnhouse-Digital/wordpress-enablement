@@ -4,6 +4,10 @@ on:
   schedule:
     - cron: '0 0 * * 0' # Runs at 00:00 every Sunday
 
+permissions: read-all
+permissions:
+  pull-requests: write
+
 jobs:
   update-versions:
     runs-on: ubuntu-latest
