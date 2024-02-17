@@ -79,7 +79,7 @@ tasks:
     checkov:
         cmds:
             - "checkov -d ./ --skip-framework terraform terraform_plan"
-            - "checkov -f ./terraform/tf_plan.json --repo-root-for-plan-enrichment ./terraform --deep-analysis --download-external-modules true --skip-check CKV_AWS_274"
+            - "checkov -d ./terraform --deep-analysis --skip-framework terraform_plan --skip-path terraform/.external_modules"
 
     apply:
         cmds:
