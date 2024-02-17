@@ -1,8 +1,9 @@
 name: Update Python and Terraform Versions
 
-on:
-  schedule:
-    - cron: '0 0 * * 0' # Runs at 00:00 every Sunday
+# on:
+#   schedule:
+#     - cron: '0 0 * * 0' # Runs at 00:00 every Sunday
+on: [push] # TODO: Remove, this is just for testing
 
 permissions: read-all
 permissions:
