@@ -19,36 +19,34 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "website_bucket_ss
   }
 }
 
-resource "aws_iam_policy" "website_bucket_kms_key_policy" {
-  name        = "website_bucket_kms_key_policy"
-  description = "IAM policy to restrict KMS key usage to website bucket"
+resource "aws_kms_key" "website_bucket_kms_key" {
+  #checkov:skip=CKV_AWS_33: we want to apply wildcard
+  description             = "This key is used to encrypt website-bucket objects"
+  deletion_window_in_days = 7
+  enable_key_rotation     = true
+
   policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [{
-      Effect = "Allow",
-      Action = [
+    Version : "2012-10-17",
+    Statement : [{
+      Effect : "Allow",
+      Principal : "*",
+      Action : [
         "kms:Encrypt",
         "kms:Decrypt",
         "kms:ReEncrypt*",
         "kms:GenerateDataKey*",
-        "kms:DescribeKey"
+        "kms:DescribeKey",
+        "kms:Update",
       ],
-      Resource = aws_s3_bucket.website_bucket.arn,
-      Condition = {
-        StringEquals = {
+      Resource : "*",
+      Condition : {
+        StringEquals : {
           "kms:ViaService"                   = "s3.eu-west-2.amazonaws.com",
           "kms:EncryptionContext:aws:s3:arn" = aws_s3_bucket.website_bucket.arn
         }
       }
     }]
   })
-}
-
-resource "aws_kms_key" "website_bucket_kms_key" {
-  description             = "This key is used to encrypt website-bucket objects"
-  deletion_window_in_days = 7
-  enable_key_rotation     = true
-  policy                  = aws_iam_policy.website_bucket_kms_key_policy.policy
 }
 
 
@@ -70,13 +68,6 @@ resource "aws_iam_role" "website_bucket_role" {
 }
 EOF
 }
-
-resource "aws_iam_policy_attachment" "kms_key_policy_attachment" {
-  name       = "kms_key_policy_attachment_for_website_bucket"
-  policy_arn = aws_iam_policy.website_bucket_kms_key_policy.arn
-  roles      = [aws_iam_role.website_bucket_role.name]
-}
-
 
 resource "aws_s3_bucket_public_access_block" "website_bucket_public_access" {
   #checkov:skip=CKV_AWS_53: We want it to be publicly accessible
