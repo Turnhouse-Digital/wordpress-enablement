@@ -78,8 +78,8 @@ tasks:
 
     checkov:
         cmds:
-            - "checkov -d ./ --skip-framework terraform terraform_plan"
-            - "checkov -d ./terraform --deep-analysis --skip-framework terraform_plan --skip-path terraform/.external_modules"
+            - "checkov -d ./ --quiet --skip-framework terraform terraform_plan"
+            - "checkov -d ./terraform --quiet --deep-analysis --skip-framework terraform_plan --skip-path terraform/.external_modules"
     apply:
         cmds:
             - task: plan
