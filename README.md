@@ -109,6 +109,77 @@ Set up remote terraform backend and you're done! You can now run the commands in
     task destroy
 ```
 
+### Mac
+
+#### 1. Python and Terraform
+
+Ensure you have the `python` version in `.python-version` and the `terraform` version in `.terraform-version` installed. If you want to set these up, I'd recommend installing `pyenv` for python and `tfenv` for terraform.
+```bash
+    brew update && brew install pyenv tfenv
+    pyenv install && python --version
+    tfenv install && terraform --version
+```
+
+#### 2. Install packages
+
+Install all required packages using `homebrew`.
+```bash
+    brew update && brew install git git-lfs awscli jq gnupg aws-vault go-task tflint trivy
+    git lfs install
+    pip install --user checkov
+```
+
+#### 3. Set up GPG keys
+
+Set up or link an existing `gpg` key. You'll need this in order to push commits to the project and to help with your `aws-vault` backend if you're on linux. Follow the tutorial written by [Github](https://docs.github.com/en/authentication/managing-commit-signature-verification/generating-a-new-gpg-key).
+
+**Gottchas**:
+* Don't forget to set `git` to use your gpg key to sign commits at the end!
+* Make sure you select `4096` when gpg asks you how long you want your key to be - otherwise Github will reject it!
+
+
+#### 4. Set up aws-vault
+
+Set up your AWS credentials using `aws-vault` and the aws cli.
+```bash
+    # Change the profile name to whatever you like - here I'm using 'tom'
+    aws-vault add tom
+    # ... follow the prompts, paste in your access_key and secret_key
+
+    # Set your default region (change your profile name)
+    printf "[profile tom]\nregion = eu-west-2\n" > ~/.aws/config
+
+    # Test it works - you should see the buckets currently in s3
+    aws-vault exec tom -- aws s3 ls
+```
+
+#### 5. Create a .env file
+
+Create a `.env` file to tell our scripts the name of your aws-vault profile.
+```bash
+    # Remember to change your profile name
+    printf "AWS_VAULT_PROFILE=tom\n" > .env
+```
+
+#### 6. Initialise Terraform
+
+Set up remote terraform backend and you're done! You can now run the commands in `Taskfile.yml` to help you develop with.
+```bash
+    task init
+
+
+
+    # Example further commands - you don't need to run these now
+    # Plan out and analyse infrastructure change
+    task plan
+
+    # Deploy infrastructure changes
+    task apply
+
+    # Tear down all infrastructure
+    task destroy
+```
+
 ### Windows (git bash)
 
 #### 1. Chocolatey, Python, and Terraform 
