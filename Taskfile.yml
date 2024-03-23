@@ -69,8 +69,6 @@ tasks:
             - task: clean
             - "{{.AUTH}} terraform -chdir=terraform plan -destroy -out=tf_plan.file"
             - "terraform -chdir=terraform show -json tf_plan.file | jq > terraform/tf_plan.json"
-            - task: trivy-scan-plan
-            - task: checkov
 
     trivy-scan-plan:
         cmds:
@@ -78,9 +76,8 @@ tasks:
 
     checkov:
         cmds:
-            - "checkov -d ./ --skip-framework terraform terraform_plan"
-            - "checkov -f ./terraform/tf_plan.json --repo-root-for-plan-enrichment ./terraform --deep-analysis --download-external-modules true --skip-check CKV_AWS_274"
-
+            - "checkov -d ./ --quiet --skip-framework terraform terraform_plan"
+            - "checkov -d ./terraform --quiet --deep-analysis --skip-framework terraform_plan --skip-path terraform/.external_modules"
     apply:
         cmds:
             - task: plan
