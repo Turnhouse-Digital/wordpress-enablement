@@ -69,8 +69,6 @@ tasks:
             - task: clean
             - "{{.AUTH}} terraform -chdir=terraform plan -destroy -out=tf_plan.file"
             - "terraform -chdir=terraform show -json tf_plan.file | jq > terraform/tf_plan.json"
-            - task: trivy-scan-plan
-            - task: checkov
 
     trivy-scan-plan:
         cmds:
