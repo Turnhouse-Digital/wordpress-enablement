@@ -63,10 +63,8 @@ jobs:
         id: checkov
         uses: bridgecrewio/checkov-action@master
         with:
-          directory: .
-          file: ./terraform/tf_plan.json
-          repo_root_for_plan_enrichment: ./terraform
-          skip_check: CKV_AWS_274
+          directory: ./terraform
+          skip_framework: terraform_plan
           quiet: true
 
       - name: Terraform Apply
