@@ -1,4 +1,3 @@
-
 resource "aws_s3_bucket" "website_bucket" {
   #checkov:skip=CKV_AWS_21: we don't want versioning for now
   #checkov:skip=CKV_AWS_144: we don't want cross region replication
@@ -113,4 +112,3 @@ resource "aws_s3_bucket_policy" "website_bucket_access_policy" {
 output "website_url" {
   value = aws_s3_bucket.website_bucket.website_endpoint
 }
-
