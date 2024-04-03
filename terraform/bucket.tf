@@ -31,12 +31,7 @@ resource "aws_kms_key" "website_bucket_kms_key" {
       Effect : "Allow",
       Principal : "*",
       Action : [
-        "kms:Encrypt",
-        "kms:Decrypt",
-        "kms:ReEncrypt*",
-        "kms:GenerateDataKey*",
-        "kms:DescribeKey",
-        "kms:Update",
+        "kms:*",
       ],
       Resource : "*",
       Condition : {
