@@ -14,11 +14,20 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.0"
     }
+
+    external = {
+      source  = "hashicorp/external"
+      version = "~> 2"
+    }
   }
 }
 
 provider "aws" {
   region = "eu-west-2"
+}
+
+provider "external" {
+
 }
 
 data "aws_caller_identity" "current" {}
