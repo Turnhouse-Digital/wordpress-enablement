@@ -5,30 +5,42 @@ on: [push] # TODO: Remove, this is just for testing
 permissions: read-all
 
 jobs:
-  update-versions:
+  update-python-version:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup pyenv
-        uses: "gabrielfalcao/pyenv-action@v18"
+      - name: Install pyenv
+        run: curl https://pyenv.run | bash
 
       - name: Fetch the existing Python version
-        run: echo "EXISTING_PYTHON_VERSION=$(cat .python-version)" >> $GITHUB_ENV
-
-      - name: Fetch the existing Terraform version
-        run: echo "EXISTING_TERRAFORM_VERSION=$(cat .terraform-version)" >> $GITHUB_ENV
+        run: echo "EXISTING_PYTHON_VERSION=$(cat .python-version)" >> "$GITHUB_ENV"
 
       - name: Fetch the latest Python version
-        run: echo "NEW_PYTHON_VERSION=$(pyenv latest 3)" >> $GITHUB_ENV
-
-      - name: Fetch the latest Terraform version
-        run: echo "NEW_TERRAFORM_VERSION=$(curl -s https://releases.hashicorp.com/terraform/ | grep -o 'terraform_[0-9].[0-9].[0-9]<' | sed 's/.$//' | cut -c11- | sort -V | tail -n 1)" >> $GITHUB_ENV
+        run: echo "NEW_PYTHON_VERSION=$(pyenv latest 3)" >> "$GITHUB_ENV"
 
       - name: Update .python-version
         if: env.EXISTING_PYTHON_VERSION != env.NEW_PYTHON_VERSION
         run: echo "${{ env.NEW_PYTHON_VERSION }}" > .python-version
+
+      - name: Create pull request for Python
+        if: env.EXISTING_PYTHON_VERSION != env.NEW_PYTHON_VERSION
+        run: gh pr create -B main -H bot/python-update/${{ env.NEW_PYTHON_VERSION }} --title 'Bot - Update project Python version to ${{ env.NEW_PYTHON_VERSION }}' --body 'Created by Github action. Update Python project version'
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  update-terraform-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fetch the existing Terraform version
+        run: echo "EXISTING_TERRAFORM_VERSION=$(cat .terraform-version)" >> "$GITHUB_ENV"
+
+      - name: Fetch the latest Terraform version
+        run: echo "NEW_TERRAFORM_VERSION=$(curl -s https://releases.hashicorp.com/terraform/ | grep -o 'terraform_[0-9].[0-9].[0-9]<' | sed 's/.$//' | cut -c11- | sort -V | tail -n 1)" >> "$GITHUB_ENV"
 
       - name: Update .terraform-version
         if: env.EXISTING_TERRAFORM_VERSION != env.NEW_TERRAFORM_VERSION
@@ -40,8 +52,9 @@ jobs:
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # - name: Automatically merge PRs that pass
-      #   run: gh pr review --auto --merge "$PR_URL"
-      #   env:
-      #     PR_URL: ${{github.event.pull_request.html_url}}
-      #     GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - name: Create pull request for Terraform
+        if: env.EXISTING_TERRAFORM_VERSION != env.NEW_TERRAFORM_VERSION
+        run: gh pr create -B main -H bot/terraform-update/${{ env.NEW_TERRAFORM_VERSION }} --title 'Bot - Update project Terraform version to ${{ env.NEW_TERRAFORM_VERSION }}' --body 'Created by Github action. Update Terraform project version'
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
