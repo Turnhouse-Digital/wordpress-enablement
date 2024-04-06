@@ -2,7 +2,9 @@ name: Update Python and Terraform Versions
 
 on: [push] # TODO: Remove, this is just for testing
 
-permissions: read-all
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   update-python-version:
