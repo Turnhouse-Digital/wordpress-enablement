@@ -1,4 +1,5 @@
 import os 
+import sys
 import json
 
 def list_website_directories():
@@ -8,6 +9,9 @@ def list_website_directories():
     for path in os.listdir(dir_path):
         if os.path.isdir(os.path.join(dir_path, path)):
             results[path] = path  # Use directory name as value
-    print(json.dumps(results))
+
+    # json_data = json.dumps(results)
+    # sys.stdout.write(json_data)
+    sys.stdout.write(json.dumps(results))
 
 list_website_directories()
