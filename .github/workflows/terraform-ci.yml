@@ -68,5 +68,5 @@ jobs:
           quiet: true
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main'
+        # if: github.ref == 'refs/heads/main' TODO: Undo!
         run: task apply-ci
