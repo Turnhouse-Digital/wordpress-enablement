@@ -12,6 +12,8 @@ tasks:
             - 'if [ "$WINDOWS_PROFILE" != "true" ]; then tfenv install; fi'
             - "{{.AUTH}} terraform -chdir=terraform init"
             - "tflint --init"
+            - "rm -rf bin/wordpress-sites"
+            - "git clone --depth=1 git@github.com:tomvaughan77/wordpress-sites.git bin/wordpress-sites"
 
     init-ci:
         cmds:
@@ -82,6 +84,7 @@ tasks:
         cmds:
             - task: plan
             - "{{.AUTH}} terraform -chdir=terraform apply tf_plan.file"
+            - "{{.AUTH}} aws s3 cp bin/wordpress-sites/sites/Turnhouse Digital s3://470096912115-website-bucket-test/ --recursive"
 
     apply-ci:
         cmds:
