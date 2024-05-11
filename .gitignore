@@ -32,4 +32,4 @@ override.tf.json
 **/tf_plan.file
 **/tf_plan.json
 terraform/.external_modules
-bin/
+.bin/
