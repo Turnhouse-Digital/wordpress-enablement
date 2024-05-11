@@ -84,7 +84,7 @@ tasks:
         cmds:
             - task: plan
             - "{{.AUTH}} terraform -chdir=terraform apply tf_plan.file"
-            - "{{.AUTH}} aws s3 cp bin/wordpress-sites/sites/Turnhouse Digital s3://470096912115-website-bucket-test/ --recursive"
+            - "{{.AUTH}} aws s3 cp \"bin/wordpress-sites/sites/Turnhouse Digital/\" \"s3://470096912115-website-bucket-test/\" --recursive"
 
     apply-ci:
         cmds:
