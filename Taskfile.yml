@@ -19,6 +19,8 @@ tasks:
         cmds:
             - tfenv install
             - "terraform -chdir=terraform init"
+            - "rm -rf .bin/wordpress-sites"
+            - "git clone --depth=1 git@github.com:tomvaughan77/wordpress-sites.git .bin/wordpress-sites"
 
     format:
         cmds:
@@ -89,6 +91,7 @@ tasks:
     apply-ci:
         cmds:
             - "terraform -chdir=terraform apply -auto-approve tf_plan.file"
+            - "{{.AUTH}} aws s3 cp \".bin/wordpress-sites/sites/Turnhouse Digital/\" \"s3://470096912115-website-bucket-test/\" --recursive"
 
     destroy:
         cmds:
