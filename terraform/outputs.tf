@@ -1,3 +1,7 @@
-output "website_url" {
-  value = aws_s3_bucket_website_configuration.website_bucket_website_config.website_endpoint
+output "name_servers_turnhousedigital" {
+  value = aws_route53_zone.turnhousedigital.name_servers
+}
+
+output "name_servers_turnhousemarketing" {
+  value = aws_route53_zone.turnhousemarketing.name_servers
 }
