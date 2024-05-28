@@ -52,7 +52,3 @@ resource "aws_s3_bucket_website_configuration" "website_bucket_website_config" {
     suffix = "index.html"
   }
 }
-
-output "website_url" {
-  value = aws_s3_bucket_website_configuration.website_bucket_website_config.website_endpoint
-}
