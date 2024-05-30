@@ -4,7 +4,11 @@ resource "aws_acm_certificate" "turnhousedigital_cert" {
   domain_name       = local.turnhousedigital_domain
   validation_method = "DNS"
 
-  subject_alternative_names = ["www.${local.turnhousedigital_domain}"]
+  subject_alternative_names = [
+    "www.${local.turnhousedigital_domain}",
+    local.turnhousemarketing_domain,
+    "www.${local.turnhousemarketing_domain}"
+  ]
 
   lifecycle {
     create_before_destroy = true

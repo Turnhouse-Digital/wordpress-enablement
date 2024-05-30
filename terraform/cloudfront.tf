@@ -19,7 +19,12 @@ resource "aws_cloudfront_distribution" "website_distribution" {
   is_ipv6_enabled     = true
   default_root_object = "index.html"
 
-  aliases = [local.turnhousedigital_domain, "www.${local.turnhousedigital_domain}"]
+  aliases = [
+    local.turnhousedigital_domain,
+    "www.${local.turnhousedigital_domain}",
+    local.turnhousemarketing_domain,
+    "www.${local.turnhousemarketing_domain}",
+  ]
 
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD", "OPTIONS"]
@@ -57,40 +62,3 @@ resource "aws_cloudfront_distribution" "website_distribution" {
 resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
   comment = "OAI for S3 bucket access"
 }
-
-# resource "aws_cloudfront_distribution" "website_distribution" {
-#   enabled = true
-
-#   # aliases = [
-#   #   aws_route53_record.turnhousedigital_www
-#   # ]
-
-#   origin {
-#     domain_name = local.turnhousedigital_domain
-#     origin_id = "turnhousedigital-s3-origin"
-#   }
-
-#   default_cache_behavior {
-#     allowed_methods = ["GET", "HEAD", "OPTIONS"]
-#     cached_methods   = ["GET", "HEAD", "OPTIONS"]
-#     target_origin_id = "turnhousedigital-s3-origin"
-#     viewer_protocol_policy = "redirect-to-https"
-
-#     # Managed-CachingOptimized policy - default recommended for s3
-#     cache_policy_id = "658327ea-f89d-4fab-a63d-7e88639e58f6"
-#   }
-
-#   viewer_certificate {
-#     cloudfront_default_certificate = true
-#   }
-
-#   restrictions {
-#     geo_restriction {
-#       locations = []
-#       restriction_type = "none"
-#     }
-#   }
-
-#   price_class = "PriceClass_100"
-#   is_ipv6_enabled = true
-# }
