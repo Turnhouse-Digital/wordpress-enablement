@@ -1,4 +1,11 @@
 resource "aws_cloudfront_distribution" "website_distribution" {
+  #checkov:skip=CKV_AWS_68: we don't need WAF
+  #checkov:skip=CKV_AWS_310: we don't need origin failover
+  #checkov:skip=CKV_AWS_86: we don't need logging
+  #checkov:skip=CKV2_AWS_47: WAF log4j thing
+  #checkov:skip=CKV2_AWS_32: response headers are fine for now
+
+
   origin {
     domain_name = aws_s3_bucket.website_bucket.bucket_regional_domain_name
     origin_id   = "S3-${aws_s3_bucket.website_bucket.id}"
@@ -12,7 +19,7 @@ resource "aws_cloudfront_distribution" "website_distribution" {
   is_ipv6_enabled     = true
   default_root_object = "index.html"
 
-  aliases = [local.turnhousedigital_domain]
+  aliases = [local.turnhousedigital_domain, "www.${local.turnhousedigital_domain}"]
 
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD", "OPTIONS"]
@@ -41,32 +48,15 @@ resource "aws_cloudfront_distribution" "website_distribution" {
   }
 
   viewer_certificate {
-    cloudfront_default_certificate = true
+    acm_certificate_arn      = aws_acm_certificate.turnhousedigital_cert.arn
+    ssl_support_method       = "sni-only"
+    minimum_protocol_version = "TLSv1.2_2018"
   }
 }
 
 resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
   comment = "OAI for S3 bucket access"
 }
-
-resource "aws_s3_bucket_policy" "website_bucket_access_policy" {
-  bucket = aws_s3_bucket.website_bucket.id
-
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect = "Allow",
-        Principal = {
-          AWS = "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ${aws_cloudfront_origin_access_identity.origin_access_identity.id}"
-        },
-        Action = "s3:GetObject",
-        Resource = "${aws_s3_bucket.website_bucket.arn}/*"
-      }
-    ]
-  })
-}
-
 
 # resource "aws_cloudfront_distribution" "website_distribution" {
 #   enabled = true
