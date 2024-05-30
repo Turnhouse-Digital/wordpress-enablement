@@ -7,7 +7,7 @@ resource "aws_s3_bucket" "website_bucket" {
   #checkov:skip=CKV_AWS_70: we want everyone to be allowed to get the object
   #checkov:skip=CKV2_AWS_6: this is a public bucket
   #checkov:skip=CKV_AWS_145: we don't need encryption
-  bucket        = "${local.account_id}-website-bucket-test"
+  bucket        = local.turnhousedigital_domain
   force_destroy = true
 }
 

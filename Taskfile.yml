@@ -82,6 +82,7 @@ tasks:
         cmds:
             - task: plan
             - "{{.AUTH}} terraform -chdir=terraform apply tf_plan.file"
+            - task: upload-sites
 
     apply-ci:
         cmds:
@@ -96,3 +97,7 @@ tasks:
         cmds:
             - rm -f terraform/tf_plan.file
             - rm -f terraform/tf_plan.json
+
+    upload-sites:
+        cmds:
+            - "{{.AUTH}} aws s3 sync \"sites/Turnhouse Digital/\" \"s3://turnhousedigital.co.uk\""
