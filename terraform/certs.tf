@@ -22,13 +22,14 @@ resource "aws_acm_certificate" "turnhousedigital_cert" {
 resource "aws_route53_record" "turnhousedigital_cert_validation" {
   for_each = {
     for dvo in aws_acm_certificate.turnhousedigital_cert.domain_validation_options : dvo.domain_name => {
-      name   = dvo.resource_record_name
-      record = dvo.resource_record_value
-      type   = dvo.resource_record_type
+      name    = dvo.resource_record_name
+      record  = dvo.resource_record_value
+      type    = dvo.resource_record_type
+      zone_id = dvo.domain_name == local.turnhousedigital_domain || dvo.domain_name == "www.${local.turnhousedigital_domain}" ? data.aws_route53_zone.turnhousedigital.zone_id : data.aws_route53_zone.turnhousemarketing.zone_id
     }
   }
 
-  zone_id = data.aws_route53_zone.turnhousedigital.zone_id
+  zone_id = each.value.zone_id
   name    = each.value.name
   type    = each.value.type
   ttl     = 300

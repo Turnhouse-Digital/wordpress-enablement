@@ -3,7 +3,7 @@ data "aws_route53_zone" "turnhousedigital" {
 }
 
 data "aws_route53_zone" "turnhousemarketing" {
-  name = local.turnhousedigital_domain
+  name = local.turnhousemarketing_domain
 }
 
 resource "aws_route53_record" "turnhousedigital_root" {

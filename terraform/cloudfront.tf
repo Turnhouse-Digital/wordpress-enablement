@@ -5,6 +5,7 @@ resource "aws_cloudfront_distribution" "website_distribution" {
   #checkov:skip=CKV2_AWS_47: WAF log4j thing
   #checkov:skip=CKV2_AWS_32: response headers are fine for now
 
+  depends_on = [aws_acm_certificate_validation.turnhousedigital_cert_validation]
 
   origin {
     domain_name = aws_s3_bucket.website_bucket.bucket_regional_domain_name

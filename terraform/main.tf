@@ -26,9 +26,7 @@ provider "aws" {
   region = "us-east-1"
 }
 
-data "aws_caller_identity" "current" {}
-
 locals {
-  turnhousedigital_domain = "turnhousedigital.co.uk"
+  turnhousedigital_domain   = "turnhousedigital.co.uk"
   turnhousemarketing_domain = "turnhousemarketing.co.uk"
 }
