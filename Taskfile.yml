@@ -101,8 +101,8 @@ tasks:
 
     upload-sites:
         cmds:
-            - "{{.AUTH}} aws s3 sync \"sites/Turnhouse Digital/\" \"s3://turnhousedigital.co.uk\""
+            - "{{.AUTH}} aws s3 sync \"sites/Turnhouse Digital/\" \"s3://turnhousedigital.co.uk\" --delete"
 
     upload-sites-ci:
         cmds:
-            - "aws s3 sync \"sites/Turnhouse Digital/\" \"s3://turnhousedigital.co.uk\""
+            - "aws s3 sync \"sites/Turnhouse Digital/\" \"s3://turnhousedigital.co.uk\" --delete"
