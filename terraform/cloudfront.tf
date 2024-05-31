@@ -4,15 +4,19 @@ resource "aws_cloudfront_distribution" "website_distribution" {
   #checkov:skip=CKV_AWS_86: we don't need logging
   #checkov:skip=CKV2_AWS_47: WAF log4j thing
   #checkov:skip=CKV2_AWS_32: response headers are fine for now
+  #checkov:skip=CKV2_AWS_46: custom origin to use s3 website path correctly
 
   depends_on = [aws_acm_certificate_validation.turnhousedigital_cert_validation]
 
   origin {
-    domain_name = aws_s3_bucket.website_bucket.bucket_regional_domain_name
     origin_id   = "S3-${aws_s3_bucket.website_bucket.id}"
+    domain_name = aws_s3_bucket_website_configuration.website_bucket_website_config.website_endpoint
 
-    s3_origin_config {
-      origin_access_identity = aws_cloudfront_origin_access_identity.origin_access_identity.cloudfront_access_identity_path
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "http-only"
+      origin_ssl_protocols   = ["TLSv1.2"]
     }
   }
 
