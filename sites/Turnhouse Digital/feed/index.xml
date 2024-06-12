@@ -12,86 +12,55 @@
 	<atom:link href="/feed/" rel="self" type="application/rss+xml" />
 	<link>/</link>
 	<description></description>
-	<lastBuildDate>Fri, 09 Feb 2024 18:33:15 +0000</lastBuildDate>
+	<lastBuildDate>Wed, 12 Jun 2024 17:00:45 +0000</lastBuildDate>
 	<language>en-GB</language>
 	<sy:updatePeriod>
 	hourly	</sy:updatePeriod>
 	<sy:updateFrequency>
 	1	</sy:updateFrequency>
-	<generator>https://wordpress.org/?v=6.5.3</generator>
-
-<image>
-	<url>/wp-content/uploads/2024/01/logomark-150x150.png</url>
-	<title>Turnhouse Digital</title>
-	<link>/</link>
-	<width>32</width>
-	<height>32</height>
-</image> 
+	<generator>https://wordpress.org/?v=6.5.4</generator>
 	<item>
-		<title>Example Case Study</title>
-		<link>/example-case-study/</link>
-					<comments>/example-case-study/#respond</comments>
+		<title>Is Email Marketing Dead? Not Even Close&#8230;</title>
+		<link>/is-email-marketing-dead-not-even-close/</link>
 		
 		<dc:creator><![CDATA[Zoe]]></dc:creator>
-		<pubDate>Fri, 09 Feb 2024 18:33:15 +0000</pubDate>
-				<category><![CDATA[Case Studies]]></category>
-		<guid isPermaLink="false">/?p=485</guid>
+		<pubDate>Mon, 10 Jun 2024 09:27:44 +0000</pubDate>
+				<category><![CDATA[Creative Content]]></category>
+		<category><![CDATA[Marketing Strategy]]></category>
+		<guid isPermaLink="false">/?p=879</guid>
 
-					<description><![CDATA[&#8220;At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, [&#8230;]]]></description>
-		
-					<wfw:commentRss>/example-case-study/feed/</wfw:commentRss>
-			<slash:comments>0</slash:comments>
-		
-		
-			</item>
-		<item>
-		<title>Another Test Post</title>
-		<link>/another-test-post/</link>
-					<comments>/another-test-post/#respond</comments>
-		
-		<dc:creator><![CDATA[Zoe]]></dc:creator>
-		<pubDate>Fri, 09 Feb 2024 17:07:52 +0000</pubDate>
-				<category><![CDATA[Data]]></category>
-		<category><![CDATA[Marketing]]></category>
-		<guid isPermaLink="false">/?p=421</guid>
-
-					<description><![CDATA[&#8220;Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque [&#8230;]]]></description>
-		
-					<wfw:commentRss>/another-test-post/feed/</wfw:commentRss>
-			<slash:comments>0</slash:comments>
-		
-		
-			</item>
-		<item>
-		<title>Test Post</title>
-		<link>/test-post/</link>
-		
-		<dc:creator><![CDATA[Zoe]]></dc:creator>
-		<pubDate>Fri, 09 Feb 2024 17:07:19 +0000</pubDate>
-				<category><![CDATA[Marketing]]></category>
-		<category><![CDATA[Tech]]></category>
-		<guid isPermaLink="false">/?p=418</guid>
-
-					<description><![CDATA[post title By Tom Vaughan Why do we do things this way? Have we always done it this way or can it be changed? Tom looks into the logic behind it. &#8220;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, [&#8230;]]]></description>
+					<description><![CDATA[Email marketing often takes a back seat to the ever-present social media marketing, but it’s still a major player in the mix. I am a big fan of email marketing, and by the end of this post, I hope you will be too!]]></description>
 		
 		
 		
 			</item>
 		<item>
-		<title>Hello world!</title>
-		<link>/hello-world/</link>
-					<comments>/hello-world/#comments</comments>
+		<title>An Introduction to SEO Copywriting</title>
+		<link>/an-introduction-to-seo-copywriting/</link>
 		
 		<dc:creator><![CDATA[Zoe]]></dc:creator>
-		<pubDate>Tue, 16 Jan 2024 14:00:42 +0000</pubDate>
-				<category><![CDATA[Data]]></category>
-		<category><![CDATA[Marketing]]></category>
-		<guid isPermaLink="false">/?p=1</guid>
+		<pubDate>Mon, 10 Jun 2024 08:19:27 +0000</pubDate>
+				<category><![CDATA[Creative Content]]></category>
+		<category><![CDATA[Marketing Strategy]]></category>
+		<category><![CDATA[Web Design & SEO]]></category>
+		<guid isPermaLink="false">/?p=834</guid>
 
-					<description><![CDATA[Welcome to WordPress. This is your first post. Edit or delete it, then start writing!]]></description>
+					<description><![CDATA[In the beginning, there was copywriting. Print marketing was big business in Don Draper’s day, but then Google came along. Now marketers have to write for two audiences simultaneously - the reader and the search engine.]]></description>
 		
-					<wfw:commentRss>/hello-world/feed/</wfw:commentRss>
-			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Marketing as a Force for Good</title>
+		<link>/marketing-as-a-force-for-good/</link>
+		
+		<dc:creator><![CDATA[Zoe]]></dc:creator>
+		<pubDate>Sun, 09 Jun 2024 15:19:39 +0000</pubDate>
+				<category><![CDATA[Marketing Strategy]]></category>
+		<guid isPermaLink="false">/?p=820</guid>
+
+					<description><![CDATA[“The challenges ahead require us to do a great deal more than just putting a Fairtrade logo on products.” – Marketing Week]]></description>
+		
 		
 		
 			</item>
